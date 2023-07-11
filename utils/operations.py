@@ -9,7 +9,7 @@ def read_json():
     :return: operations: считаный список словарей
     """
 
-    with open("operations.json", "r") as file:
+    with open("../operations.json", "r") as file:
         operations_json = file.read()
         operations = json.loads(operations_json)
 
