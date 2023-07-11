@@ -50,3 +50,40 @@ def sort_data(array):
 
     sorted_array = sorted(array, key=lambda x: x['date'], reverse=True)
     return sorted_array
+
+
+def right_format(dictionary):
+
+    """
+    Функция принимает на вход словарь и выводит необходимые данные 
+    в слудующем формате:
+    <дата перевода> <описание перевода>
+    <откуда> -> <куда>
+    <сумма перевода> <валюта>
+    
+    :param dictionary: словарь из списка
+    :return: text: данные в верном формате
+    """
+
+    # Считываем дату и записываем её в формате дд.мм.гггг
+    dt_string = dictionary["date"]
+    dt_object = datetime.strptime(dt_string, "%Y-%m-%dT%H:%M:%S.%f")
+    data = f"{dt_object.day}.{dt_object.month}.{dt_object.year}"
+
+    # Формируем маску для счета отправителя
+    account_from = dictionary["from"]
+    account_from = account_from.split()
+    account_string_from = f"{' '.join(account_from[:-1])} " \
+                          f"{account_from[-1][:4]} {account_from[-1][4:6]}** **** {account_from[-1][-4:]}"
+
+    # Формируем маску для счета получателя
+    account_to = dictionary["to"]
+    account_to = account_to.split()
+    account_string_to = f"{' '.join(account_to[:-1])} **{account_to[-1][-4:]}"
+
+    #Формируем текст, который будет выведен на экран
+    text = f'{data} {dictionary["description"]}\n{account_string_from} -> ' \
+           f'{account_string_to}\n{dictionary["operationAmount"]["amount"]} ' \
+           f'{dictionary["operationAmount"]["currency"]["name"]}\n'
+
+    return text
