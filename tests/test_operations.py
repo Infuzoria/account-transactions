@@ -45,3 +45,21 @@ def test_sort_data():
                                             {"date": "2019-04-26T10:50:58.294041"},
                                             {"date": "2019-04-04T23:20:05.206878"}]
 
+
+def test_right_format():
+    dictionary1 = {"id": 441945886, "state": "EXECUTED", "date": "2019-08-26T10:50:58.294041",
+                   "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
+                   "description": "Перевод организации", "from": "Maestro 1596837868705199",
+                   "to": "Счет 64686473678894779589"}
+
+    dictionary2 = {"id": 142264268, "state": "EXECUTED", "date": "2019-04-04T23:20:05.206878",
+                   "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
+                   "description": "Перевод со счета на счет", "from": "Счет 19708645243227258542",
+                   "to": "Счет 75651667383060284188"}
+
+    string1 = """26.8.2019 Перевод организации\nMaestro 1596 83** **** 5199 -> Счет **9589\n31957.58 руб.\n"""
+
+    string2 = """4.4.2019 Перевод со счета на счет\nСчет 1970 86** **** **** 8542 -> Счет **4188\n79114.93 USD\n"""
+
+    assert operations.right_format(dictionary1) == string1
+    assert operations.right_format(dictionary2) == string2

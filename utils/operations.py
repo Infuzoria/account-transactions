@@ -9,7 +9,7 @@ def read_json():
     :return: operations: считаный список словарей
     """
 
-    with open("../operations.json", "r") as file:
+    with open("operations.json", "r") as file:
         operations_json = file.read()
         operations = json.loads(operations_json)
 
@@ -73,8 +73,12 @@ def right_format(dictionary):
     # Формируем маску для счета отправителя
     account_from = dictionary["from"]
     account_from = account_from.split()
-    account_string_from = f"{' '.join(account_from[:-1])} " \
-                          f"{account_from[-1][:4]} {account_from[-1][4:6]}** **** {account_from[-1][-4:]}"
+    final_row = ' '.join(account_from[:-1])
+
+    account_from = f"{account_from[-1][:6]}{(len(account_from[-1]) - 10)*'*'}{account_from[-1][-4:]}"
+    for i in range(0, len(account_from), 4):
+        final_row += " "
+        final_row += account_from[i: i+4]
 
     # Формируем маску для счета получателя
     account_to = dictionary["to"]
@@ -82,7 +86,7 @@ def right_format(dictionary):
     account_string_to = f"{' '.join(account_to[:-1])} **{account_to[-1][-4:]}"
 
     #Формируем текст, который будет выведен на экран
-    text = f'{data} {dictionary["description"]}\n{account_string_from} -> ' \
+    text = f'{data} {dictionary["description"]}\n{final_row} -> ' \
            f'{account_string_to}\n{dictionary["operationAmount"]["amount"]} ' \
            f'{dictionary["operationAmount"]["currency"]["name"]}\n'
 
