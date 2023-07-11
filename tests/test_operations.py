@@ -28,3 +28,20 @@ def test_filter_data():
     assert operations.filter_data([dictionary1]) == [dictionary1]
     assert operations.filter_data([dictionary2]) == []
     assert operations.filter_data([dictionary3]) == []
+
+
+def test_sort_data():
+    array1 = [{"date": "2019-04-04T23:20:05.206878"}, {"date": "2019-08-26T10:50:58.294041"},
+              {"date": "2018-06-30T02:08:58.425572"}]
+
+    array2 = [{"date": "2019-04-04T23:20:05.206878"}, {"date": "2019-04-26T10:50:58.294041"},
+              {"date": "2019-04-30T02:08:58.425572"}]
+
+    assert operations.sort_data(array1) == [{"date": "2019-08-26T10:50:58.294041"},
+                                            {"date": "2019-04-04T23:20:05.206878"},
+                                            {"date": "2018-06-30T02:08:58.425572"}]
+
+    assert operations.sort_data(array2) == [{"date": "2019-04-30T02:08:58.425572"},
+                                            {"date": "2019-04-26T10:50:58.294041"},
+                                            {"date": "2019-04-04T23:20:05.206878"}]
+
